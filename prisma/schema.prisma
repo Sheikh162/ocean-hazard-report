@@ -1,0 +1,67 @@
+// datasource and generator remain the same
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+// --- ENUMS: For standardized, filterable data ---
+
+enum HazardType {
+  UnusualTides
+  CoastalFlooding
+  CoastalDamage
+  HighWaves
+  SwellSurge
+  StormSurge
+  TsunamiWarning
+  AbnormalSeaBehaviour
+  CoastalCurrents
+  Other
+}
+
+enum ReportStatus {
+  Unverified // Default status for a new citizen report
+  Verified   // An official has confirmed the report is credible
+  Alert      // Verified and deemed urgent or high-impact
+  Archived   // Resolved or irrelevant
+}
+
+enum DataSource {
+  CITIZEN_WEB
+  CITIZEN_MOBILE
+  IOT_SENSOR
+  SOCIAL_MEDIA
+}
+
+// --- CORE REPORT MODEL ---
+
+model Report {
+  id        String   @id @default(uuid())
+  userId    String   // The Clerk ID of the citizen or system that submitted it
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // --- Core Hazard Information ---
+  hazardType  HazardType
+  description String?    @db.Text // Using Text for potentially long descriptions
+  imageUrl    String?    // URL for the uploaded photo from UploadThing
+
+  // --- Geolocation & Location Context ---
+  latitude      Float
+  longitude     Float
+  locationAlias String?  // A user-friendly name for the location, e.g., "Marina Beach, Chennai"
+
+  // --- Status and Verification ---
+  status        ReportStatus @default(Unverified)
+  verifiedById  String?      // Clerk ID of the official who verified this report
+  verifiedAt    DateTime?    // Timestamp of verification
+  notes         String?      @db.Text // Internal notes for officials
+
+  // --- Data Source ---
+  source        DataSource   @default(CITIZEN_WEB)
+}
