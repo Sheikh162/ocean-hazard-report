@@ -120,11 +120,17 @@ export default function SubmitPage() {
                   register={register('locationAlias')}
                   error={errors.locationAlias}
               />
+
+              <TextareaField
+                label="Description"
+                name="description"
+                register={register('description')}
+                error={errors.description}
+                className="md:col-span-2"
+              />
               
-              {/* For the MVP, we'll use a simple text input for the image URL.
-                  This can be replaced with an UploadThing component later. */}
               <FormField
-                label="Photo URL (Optional)"
+                label="Photo URL"
                 name="imageUrl"
                 register={register('imageUrl')}
                 error={errors.imageUrl}
