@@ -55,11 +55,11 @@ export const columns: ColumnDef<Report>[] = [
     accessorKey: "locationAlias",
     header: "Location Alias",
   },
-  {
+/*   {
     accessorKey: "verifiedById",
     header: "Verified By",
     cell: ({ row }) => row.getValue("verifiedById") || "N/A",
-  },
+  }, */
   {
     id: "actions",
     cell: ({ row }) => {

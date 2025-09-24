@@ -114,12 +114,11 @@ export default function SubmitPage() {
                 )}
               />
 
-              <TextareaField
-                label="Description of Hazard"
-                name="description"
-                register={register('description')}
-                error={errors.description}
-                className="md:col-span-2"
+              <FormField
+                  label="Location"
+                  name="locationAlias"
+                  register={register('locationAlias')}
+                  error={errors.locationAlias}
               />
               
               {/* For the MVP, we'll use a simple text input for the image URL.
